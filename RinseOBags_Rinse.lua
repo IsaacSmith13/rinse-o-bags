@@ -49,30 +49,33 @@ end
 ------------------------------------------------------------------------------
 -- Rinse Functions + Timer
 
+-- idk why but need to deposit to bank before gbank works in an individual session
+
 function addon:Rinse()
 	addon:DebugPrintf("Rinse(), Source %s, ItemID %s",
 		tostring(addon.MOVE.Source), tostring(addon.MOVE.ID))
 
 	if addon.MOVE.Source then
 		if addon.MOVE.Source == "BAG" then
-			if addon.DST["GUILDBANK"] and addon.DST["GUILDBANK"].IsOpen and addon.DST["GUILDBANK"].IsOpen() then
+			-- if addon.DST["GUILDBANK"] then
+        -- if addon.DST["GUILDBANK"] and addon.DST["GUILDBANK"].IsOpen and addon.DST["GUILDBANK"].IsOpen() then
 				addon.MOVE.Dest = "GUILDBANK"
-			end
+			-- end
 			if addon.DST["BANK"] and addon.DST["BANK"].IsOpen and addon.DST["BANK"].IsOpen() then
 				addon.MOVE.Dest = "BANK"
 			end
 		else
-			if addon.MOVE.Source == "GUILDBANK" or addon.MOVE.Source == "BANK" then
+			-- if addon.MOVE.Source == "GUILDBANK" or addon.MOVE.Source == "BANK" then
 				addon.MOVE.Dest = "BAG"
-			end
+			-- end
 		end
 
 		if addon.MOVE.Dest then
 			addon:DebugPrintf("  rinse to %s", tostring(addon.MOVE.Dest))
-			if addon.SRC[addon.MOVE.Source].Rinse then
+			-- if addon.SRC[addon.MOVE.Source].Rinse then
 				addon:DebugPrintf("8~  -> SRC." .. addon.MOVE.Source .. ".Rinse()")
 				addon.SRC[addon.MOVE.Source].Rinse()
-			end
+			-- end
 		else
 			addon:RinseAbort("|cffff8888" .. L["No destination open!"] .. "|r", "ERR~no DEST defined!")
 		end
